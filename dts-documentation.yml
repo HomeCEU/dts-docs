@@ -10,7 +10,7 @@ paths:
   /docType:
     get:
       tags:
-        - "DocType"
+        - "DocTypes"
       summary: "list doctypes"
       operationId: "getDocTypes"
       responses:
