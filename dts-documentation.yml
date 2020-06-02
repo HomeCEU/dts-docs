@@ -1,0 +1,595 @@
+swagger: "2.0"
+info:
+  description: "Manage and render document templates"
+  version: "0.1.0"
+  title: "Document Template System"
+host: "api.dts.local"
+basePath: "/api/v1"
+
+paths:
+  /docType:
+    get:
+      tags:
+        - "DocType"
+      summary: "list doctypes"
+      operationId: "getDocTypes"
+      responses:
+        200:
+          description: "success"
+          schema:
+            type: "object"
+            properties:
+              total:
+                type: "number"
+                example: 1
+              items:
+                type: "array"
+                items:
+                  $ref: "#/definitions/DocType"
+
+  # Templates
+  /template:
+    post:
+      tags:
+        - "Templates"
+      summary: "add/update template - NOT YET IMPLEMENTED CEMS-1620"
+      description: "add new version of template"
+      operationId: "putTemplate"
+      consumes:
+        - "multipart/form-data"
+      parameters:
+        - name: "docType"
+          in: "formData"
+          description: "constant to identify the type of template"
+          required: true
+          type: "string"
+        - name: "templateKey"
+          in: "formData"
+          description: "constant to identify template, unique per docType"
+          required: true
+          type: "string"
+        - name: "author"
+          in: "formData"
+          description: "author"
+          required: true
+          type: "string"
+        - name: "body"
+          in: "formData"
+          description: "template body"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: "success"
+          schema:
+            $ref: "#/definitions/TemplateDetail"
+        400:
+          description: "bad request, maybe missing author or body"
+    get:
+      tags:
+        - "Templates"
+      summary: "list templates - NOT YET IMPLEMENTED CEMS-1680"
+      description: "get most recent template detail filtered by type or key"
+      operationId: "getTemplates"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "filter[type]"
+          in: "query"
+          description: "filter results by docType"
+          type: "string"
+          required: true
+        - name: "filter[key]"
+          in: "query"
+          description: "filter results by templateKey"
+          type: "string"
+        - name: "filter[search]"
+          in: "query"
+          description: "filter results by search string"
+          type: "string"
+      responses:
+        200:
+          description: "success"
+          schema:
+            type: "object"
+            properties:
+              total:
+                type: "number"
+                example: 1
+              items:
+                type: "array"
+                items:
+                  $ref: "#/definitions/TemplateDetail"
+
+
+
+  /template/{templateId}:
+    get:
+      tags:
+        - "Templates"
+      summary: "Get template body specific version - NOT YET IMPLEMENTED CEMS-1618"
+      description: ""
+      operationId: "getTemplateBody"
+      produces:
+        - "text/plain"
+      parameters:
+        - name: "templateId"
+          in: "path"
+          description: "global unique template identifer"
+          required: true
+          type: "string"
+          format: "uuid"
+      responses:
+        200:
+          description: "success"
+        404:
+          description: "no such template"
+
+  /template/{docType}/{templateKey}:
+    get:
+      tags:
+        - "Templates"
+      summary: "Get template body current version - NOT YET IMPLEMENTED CEMS-1618"
+      description: "get most recent template detail for type and key"
+      operationId: "getTemplateBodyByKey"
+      produces:
+        - "text/plain"
+      parameters:
+        - name: "docType"
+          in: "path"
+          description: "template type to identify the type of template"
+          required: true
+          type: "string"
+        - name: "templateKey"
+          in: "path"
+          description: "template constant to identify template, unique per docType"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: "success"
+        404:
+          description: "no such template"
+
+  /template/{docType}/{templateKey}/history:
+    get:
+      tags:
+        - "Templates"
+      summary: "list template versions - NOT YET IMPLEMENTED"
+      description: "list all versions of templates for type and key"
+      operationId: "getTemplateVersions"
+      parameters:
+        - name: "docType"
+          in: "path"
+          description: "template type to identify the type of template"
+          required: true
+          type: "string"
+        - name: "templateKey"
+          in: "path"
+          description: "template constant to identify template, unique per docType"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: "success"
+          schema:
+            type: "object"
+            properties:
+              total:
+                type: "number"
+                example: 1
+              items:
+                type: "array"
+                items:
+                  $ref: "#/definitions/TemplateDetail"
+        404:
+          description: "no such template"
+
+  # DocData
+
+  /docdata:
+    post:
+      tags:
+        - "DocData"
+      summary: "Import docData data structure"
+      description: ""
+      operationId: "addDocData"
+      consumes:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "docData"
+          description: "Required: docType, dataKey, data"
+          required: true
+          schema:
+            type: "object"
+            required:
+              - docType
+              - dataKey
+              - data
+            properties:
+              docType:
+                type: "string"
+                example: "courseCompletion"
+              dataKey:
+                type: "string"
+                example: "F8C412A9"
+              data:
+                type: "object"
+      responses:
+        201:
+          headers:
+            Location:
+              type: string
+              description: "The location of the newly created resource"
+          description: "success"
+          schema:
+            $ref: "#/definitions/DocDataDetail"
+        400:
+          description: "failed request, missing or invalid data"
+
+  /docdata/{dataId}:
+    get:
+      tags:
+        - "DocData"
+      summary: "get specific version of docData - NOT YET IMPLEMENTED"
+      operationId: "getDocDataById"
+      parameters:
+        - name: "dataId"
+          in: "path"
+          description: "global unique docData identifier"
+          required: true
+          type: string
+          format: "uuid"
+      responses:
+        200:
+          description: "success"
+          schema:
+            $ref: "#/definitions/DocDataDetailWithData"
+        404:
+          description: "no such docData"
+
+  /docdata/{docType}/{dataKey}:
+    head:
+      tags:
+        - "DocData"
+      summary: "dataKey exists?"
+      description: "use this just to see if the docType/dataKey exists"
+      operationId: "getDocDataExists"
+      parameters:
+        - name: "docType"
+          in: "path"
+          description: "type constant, does not have to already exist"
+          required: true
+          type: string
+        - name: "dataKey"
+          in: "path"
+          description: "docData identifier, must be unique within type"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: "success"
+        404:
+          description: "no such docData"
+    get:
+      tags:
+        - "DocData"
+      summary: "get current version of docData - NOT YET IMPLEMENTED"
+      operationId: "getDocDataByKey"
+      parameters:
+        - name: "docType"
+          in: "path"
+          description: "type constant, does not have to already exist"
+          required: true
+          type: string
+        - name: "dataKey"
+          in: "path"
+          description: "docData identifier, must be unique within type"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: "success"
+          schema:
+            $ref: "#/definitions/DocDataDetailWithData"
+        404:
+          description: "no such docData"
+
+  /docdata/{docType}/{dataKey}/history:
+    get:
+      tags:
+        - "DocData"
+      summary: "list versions of docType/dataKey"
+      operationId: "getDocDataVersions"
+      parameters:
+        - name: "docType"
+          in: "path"
+          description: "type constant, does not have to already exist"
+          required: true
+          type: string
+        - name: "dataKey"
+          in: "path"
+          description: "docData identifier, must be unique within type"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: "success"
+          schema:
+            type: "object"
+            properties:
+              total:
+                type: "number"
+                example: 1
+              items:
+                type: "array"
+                items:
+                  $ref: "#/definitions/DocDataDetail"
+        404:
+          description: "DocData not found"
+
+
+  /render:
+    get:
+      tags:
+        - "Render"
+      summary: "get document from template and docData"
+      description: "use this if you need a specific template or docData version"
+      operationId: "render"
+      produces:
+        - "application/pdf"
+        - "text/html"
+      parameters:
+        - name: "docType"
+          in: "query"
+          description: "required only if keys are used instead of id's"
+          type: "string"
+        - name: "templateId"
+          in: "query"
+          description: "use for specific template version"
+          type: "string"
+          format: "uuid"
+        - name: "templateKey"
+          in: "query"
+          description: "required if templateId is not provided - constant to identify template, unique per docType"
+          type: "string"
+        - name: "dataId"
+          in: "query"
+          description: "use for specific docData version"
+          type: "string"
+          format: "uuid"
+        - name: "dataKey"
+          in: "query"
+          description: "required if dataId is not provided - docData identifier, unique per docData type"
+          type: "string"
+      responses:
+        200:
+          description: "success"
+        404:
+          description: "docData not found"
+
+  /render/{docType}/{templateKey}/{dataKey}:
+    get:
+      tags:
+        - "Render"
+      summary: "get document from template and docData"
+      description: "this will use the most recent template and docData of each type+key"
+      operationId: "renderLatest"
+      produces:
+        - "application/pdf"
+        - "text/html"
+      parameters:
+        - name: "docType"
+          in: "path"
+          description: "constant to identify the type of document"
+          required: true
+          type: "string"
+        - name: "templateKey"
+          in: "path"
+          description: "constant to identify template, unique per docType"
+          required: true
+          type: "string"
+        - name: "dataKey"
+          in: "path"
+          description: "docData identifier, unique per docType"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: "success"
+        404:
+          description: "docData not found"
+          
+  /render/{docType}/{templateKey}:
+    post:
+      tags:
+        - "Render"
+      summary: "render template using request body - NOT YET IMPLEMENTED"
+      description: ""
+      operationId: "hotRender"
+      produces:
+        - "application/pdf"
+        - "text/html"
+      parameters:
+        - name: "docType"
+          in: "path"
+          description: "constant to identify the type of document"
+          required: true
+          type: "string"
+        - name: "templateKey"
+          in: "path"
+          description: "constant to identify template, unique per docType"
+          required: true
+          type: "string"
+        - in: "body"
+          name: "docData"
+          description: "Required: docType, dataKey, data"
+          required: true
+          schema:
+            type: "object"
+            required:
+              - data
+            properties:
+              format:
+                type: "string"
+                description: "html or pdf"
+                enum: ["html","pdf"]
+              data:
+                type: "object"
+                description: "key value pairs used to render template"
+      responses:
+        200:
+          description: "success"
+      
+  /hotrender:
+    post:
+      tags:
+        - "Render"
+      produces:
+        - "application/pdf"
+        - "text/html"
+      consumes:
+        - "multipart/form-data"
+      summary: "Create a request for a hot render"
+      parameters:
+        - name: "format"
+          in: "formData"
+          description: "pdf or html, defaults to html"
+          type: "string"
+          enum: ["html", "pdf"]
+        - name: "docType"
+          type: "string"
+          in: "formData"
+          description: "The doctype for the template\nIf this is not provided, partials or images will NOT be compiled into the template"
+          required: false
+        - name: "template"
+          in: "formData"
+          description: "template body"
+          required: true
+          type: "string"
+        - name: "data"
+          in: "formData"
+          description: "json data structure as a string via json.stringify()"
+          required: true
+          type: "string"
+      responses:
+        201:
+          headers:
+            Location:
+              description: "URL to retrieve the rendered document"
+              type: string
+          description: "created"
+    
+  /hotrender/{renderCode}:
+    get:
+      tags:
+        - "Render"
+      produces:
+        - "text/hml"
+        - "application/pdf"
+      parameters:
+        - name: "renderCode"
+          in: "path"
+          type: string
+          description: "ID Provided from POST"
+          required: true
+      responses:
+        200:
+          description: "success"
+
+
+          
+definitions:
+  DocType:
+    type: "object"
+    required:
+      - docType
+    properties:
+      docType:
+        type: "string"
+        example: "courseCompletionCertificate"
+      templateCount:
+        type: "number"
+        example: 20
+      links: 
+        type: "object"
+        properties:
+          templates: 
+            type: "string"
+            description: "list templates in doctype"
+            example: "/template?filter[type]=courseCompletionCertificate"
+            format: "uri"
+        
+        
+  TemplateDetail:
+    type: "object"
+    required:
+      - docType
+      - templateKey
+      - author
+    properties:
+      templateId:
+        type: "string"
+        format: "uuid"
+      docType:
+        type: "string"
+        example: "courseCompletionCertificate"
+        description: "constant to identify the type of template"
+      templateKey:
+        type: "string"
+        example: "default-ce"
+        description: "constant to identify template, unique per docType"
+      author:
+        type: "string"
+        example: "Robert Martin"
+        description: "Authors name"
+      createdAt:
+        type: "string"
+        format: "date-time"
+      bodyUri:
+        type: "string"
+        format: "uri"
+        example: "https://api/v1/template/3fa85f64-5717-4562-b3fc-2c963f66afa6"
+        description: "link to template body"
+
+  DocDataDetailWithData:
+    type: "object"
+    required:
+      - docType
+      - dataKey
+      - data
+    properties:
+      dataId:
+        type: "string"
+        format: "uuid"
+      docType:
+        type: "string"
+        example: "courseCompletion"
+      dataKey:
+        type: "string"
+        example: "F8C412A9"
+      createdAt:
+        type: "string"
+        format: "date-time"
+      data:
+        type: "object"
+
+  DocDataDetail:
+    type: "object"
+    required:
+      - docType
+      - dataKey
+    properties:
+      dataId:
+        type: "string"
+        format: "uuid"
+      docType:
+        type: "string"
+        example: "courseCompletion"
+      dataKey:
+        type: "string"
+        example: "F8C412A9"
+      createdAt:
+        type: "string"
+        format: "date-time"
