@@ -32,7 +32,7 @@ paths:
     post:
       tags:
         - "Templates"
-      summary: "add/update template - NOT YET IMPLEMENTED CEMS-1620"
+      summary: "add/update template"
       description: "add new version of template"
       operationId: "putTemplate"
       consumes:
@@ -550,7 +550,7 @@ definitions:
       bodyUri:
         type: "string"
         format: "uri"
-        example: "https://api/v1/template/3fa85f64-5717-4562-b3fc-2c963f66afa6"
+        example: "/template/3fa85f64-5717-4562-b3fc-2c963f66afa6"
         description: "link to template body"
 
   DocDataDetailWithData:
