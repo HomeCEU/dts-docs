@@ -68,25 +68,22 @@ paths:
     get:
       tags:
         - "Templates"
-      summary: "list templates - NOT YET IMPLEMENTED CEMS-1680"
-      description: "get most recent template detail filtered by type or key"
+      summary: "list templates - NOT YET IMPLEMENTED github.com/HomeCEU/dts/pull/12"
+      description: "list of templates, newest versions only.  Filterable by type or search string.  Search string searches accross type, key, name, author"
       operationId: "getTemplates"
       produces:
         - "application/json"
       parameters:
         - name: "filter[type]"
           in: "query"
-          description: "filter results by docType"
+          description: "filter results by docType.  Note that if filter[search] is provided then filter[type] is ignored and will have no effect."
           type: "string"
-          required: true
-        - name: "filter[key]"
-          in: "query"
-          description: "filter results by templateKey"
-          type: "string"
+          required: false
         - name: "filter[search]"
           in: "query"
-          description: "filter results by search string"
+          description: "filter results by search string which searches accross type, key, name, author"
           type: "string"
+          required: false
       responses:
         200:
           description: "success"
