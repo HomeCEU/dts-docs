@@ -590,3 +590,6 @@ definitions:
       createdAt:
         type: "string"
         format: "date-time"
+      link:
+        type: "string"
+        example: "/docdata/6da85f64-5717-4562-b3fc-2c963f66af4c"
