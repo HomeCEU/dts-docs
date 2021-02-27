@@ -1,12 +1,24 @@
 swagger: "2.0"
 info:
   description: "Manage and render document templates"
-  version: "0.1.0"
+  version: "1.1.0"
   title: "Document Template System"
 host: "api.dts.local"
 basePath: "/api/v1"
 
 paths:
+  /status:
+    get:
+      tags:
+        - "API"
+      summary: "get status of the API"
+      responses:
+        200:
+          description: "success"
+          schema:
+            type: "string"
+            example: "OK"
+
   /docType:
     get:
       tags:
@@ -68,7 +80,7 @@ paths:
     get:
       tags:
         - "Templates"
-      summary: "list templates - NOT YET IMPLEMENTED github.com/HomeCEU/dts/pull/12"
+      summary: "list templates"
       description: "list of templates, newest versions only.  Filterable by type or search string.  Search string searches accross type, key, name, author"
       operationId: "getTemplates"
       produces:
@@ -104,7 +116,7 @@ paths:
     get:
       tags:
         - "Templates"
-      summary: "Get template body specific version - NOT YET IMPLEMENTED CEMS-1618"
+      summary: "Get template body specific version"
       description: ""
       operationId: "getTemplateBody"
       produces:
@@ -126,7 +138,7 @@ paths:
     get:
       tags:
         - "Templates"
-      summary: "Get template body current version - NOT YET IMPLEMENTED CEMS-1618"
+      summary: "Get template body current version"
       description: "get most recent template detail for type and key"
       operationId: "getTemplateBodyByKey"
       produces:
@@ -152,7 +164,7 @@ paths:
     get:
       tags:
         - "Templates"
-      summary: "list template versions - NOT YET IMPLEMENTED"
+      summary: "list template versions"
       description: "list all versions of templates for type and key"
       operationId: "getTemplateVersions"
       parameters:
@@ -229,7 +241,7 @@ paths:
     get:
       tags:
         - "DocData"
-      summary: "get specific version of docData - NOT YET IMPLEMENTED"
+      summary: "get specific version of docData"
       operationId: "getDocDataById"
       parameters:
         - name: "dataId"
@@ -247,32 +259,10 @@ paths:
           description: "no such docData"
 
   /docdata/{docType}/{dataKey}:
-    head:
-      tags:
-        - "DocData"
-      summary: "dataKey exists?"
-      description: "use this just to see if the docType/dataKey exists"
-      operationId: "getDocDataExists"
-      parameters:
-        - name: "docType"
-          in: "path"
-          description: "type constant, does not have to already exist"
-          required: true
-          type: string
-        - name: "dataKey"
-          in: "path"
-          description: "docData identifier, must be unique within type"
-          required: true
-          type: "string"
-      responses:
-        200:
-          description: "success"
-        404:
-          description: "no such docData"
     get:
       tags:
         - "DocData"
-      summary: "get current version of docData - NOT YET IMPLEMENTED"
+      summary: "get current version of docData"
       operationId: "getDocDataByKey"
       parameters:
         - name: "docType"
@@ -397,47 +387,6 @@ paths:
           description: "success"
         404:
           description: "docData not found"
-          
-  /render/{docType}/{templateKey}:
-    post:
-      tags:
-        - "Render"
-      summary: "render template using request body - NOT YET IMPLEMENTED"
-      description: ""
-      operationId: "hotRender"
-      produces:
-        - "application/pdf"
-        - "text/html"
-      parameters:
-        - name: "docType"
-          in: "path"
-          description: "constant to identify the type of document"
-          required: true
-          type: "string"
-        - name: "templateKey"
-          in: "path"
-          description: "constant to identify template, unique per docType"
-          required: true
-          type: "string"
-        - in: "body"
-          name: "docData"
-          description: "Required: docType, dataKey, data"
-          required: true
-          schema:
-            type: "object"
-            required:
-              - data
-            properties:
-              format:
-                type: "string"
-                description: "html or pdf"
-                enum: ["html","pdf"]
-              data:
-                type: "object"
-                description: "key value pairs used to render template"
-      responses:
-        200:
-          description: "success"
       
   /hotrender:
     post:
