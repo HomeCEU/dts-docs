@@ -1,9 +1,8 @@
 swagger: "2.0"
 info:
   description: "Manage and render document templates"
-  version: "0.1.0"
+  version: "1.0.0"
   title: "Document Template System"
-host: "api.dts.local"
 basePath: "/api/v1"
 
 paths:
