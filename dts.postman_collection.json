@@ -10,6 +10,20 @@
 			"item": [
 				{
 					"name": "DocType",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9912b9ec-7f1e-4fbc-a37d-15be9cb3ff42",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -36,12 +50,28 @@
 			"item": [
 				{
 					"name": "Add Template",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "47db19bf-deaf-4135-a49b-13130953eab3",
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,202]);",
+									"});",
+									"var jsonData = JSON.parse(responseBody);",
+									"pm.environment.set(\"templateId\", jsonData.templateId);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"docType\": \"homeceu-certificate\",\n    \"templateKey\": \"nursing\",\n    \"author\": \"Dan\",\n    \"body\": \"<center><h2>Course Certificate</h2> {{ student.firstName }} {{ student.lastName }} has completed {{ course.name }}\"\n}",
+							"raw": "{\n    \"docType\": \"homeceu-certificate\",\n    \"templateKey\": \"nursing\",\n    \"author\": \"Test Author\",\n    \"body\": \"<center><h2>Course Certificate</h2> {{ student.firstName }} {{ student.lastName }} has completed {{ course.name }}\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -64,6 +94,20 @@
 				},
 				{
 					"name": "List Templates",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ae44df1a-e15a-4081-b2d1-6870484823db",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -83,11 +127,25 @@
 				},
 				{
 					"name": "Get Template Body by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "70e41e1f-9da6-4a7d-9a55-d75285eb581c",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/api/v1/template/template_id",
+							"raw": "{{base_url}}/api/v1/template/{{templateId}}",
 							"host": [
 								"{{base_url}}"
 							],
@@ -95,7 +153,7 @@
 								"api",
 								"v1",
 								"template",
-								"template_id"
+								"{{templateId}}"
 							]
 						}
 					},
@@ -103,6 +161,20 @@
 				},
 				{
 					"name": "Get Template Body by docType & Key",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e67a336a-0192-47f4-ac06-e6896bc81942",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -124,6 +196,20 @@
 				},
 				{
 					"name": "Get Template History",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "988a3a65-65b0-4d58-9611-0ffd3f98d12f",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -152,6 +238,26 @@
 			"item": [
 				{
 					"name": "Add DocData",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ace70245-4999-45e8-8d3d-8b6e0b4841d6",
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,202]);",
+									"});",
+									"pm.test(\"Response Has dataId\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('dataId');",
+									"});",
+									"var jsonData = JSON.parse(responseBody);",
+									"pm.environment.set(\"dataId\", jsonData.dataId);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -180,11 +286,25 @@
 				},
 				{
 					"name": "Get DocData by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "3e95f45d-89ab-4160-b036-d6723a26910c",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/api/v1/docdata/dataId",
+							"raw": "{{base_url}}/api/v1/docdata/{{dataId}}",
 							"host": [
 								"{{base_url}}"
 							],
@@ -192,7 +312,7 @@
 								"api",
 								"v1",
 								"docdata",
-								"dataId"
+								"{{dataId}}"
 							]
 						}
 					},
@@ -200,6 +320,20 @@
 				},
 				{
 					"name": "Get DocData by DocType and Key",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "416fc836-2243-47b2-9a98-4e274d685983",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -221,6 +355,20 @@
 				},
 				{
 					"name": "Get DocData History",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ce0dc8c2-ab8a-433b-9d2a-23b90a79447a",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -249,6 +397,20 @@
 			"item": [
 				{
 					"name": "Render",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "085ede51-5a0a-4d00-bc75-f766ab73534f",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [
@@ -259,7 +421,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{base_url}}/api/v1/render?dataId=f813f2ec-78cc-11eb-9f72-0242ac160003&templateId=4e0d39a8-78cb-11eb-a251-0242ac160003",
+							"raw": "{{base_url}}/api/v1/render?dataId={{dataId}}&templateId={{templateId}}",
 							"host": [
 								"{{base_url}}"
 							],
@@ -271,11 +433,11 @@
 							"query": [
 								{
 									"key": "dataId",
-									"value": "f813f2ec-78cc-11eb-9f72-0242ac160003"
+									"value": "{{dataId}}"
 								},
 								{
 									"key": "templateId",
-									"value": "4e0d39a8-78cb-11eb-a251-0242ac160003"
+									"value": "{{templateId}}"
 								}
 							]
 						}
@@ -284,6 +446,20 @@
 				},
 				{
 					"name": "Render DocType TemplateKey",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0af38c50-0621-477d-93a3-ed0b33b2c421",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [
@@ -312,12 +488,26 @@
 				},
 				{
 					"name": "HotRender",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "66342af8-25a3-497e-bf89-ce3f93ab9b30",
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,202]);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"template\": \"<center><h2>Nursing Certificate</h2> {{ student.firstName }} {{ student.lastName }} has completed {{ course.name }}\",\n    \"data\": {\n        \"student\": {\n            \"firstName\": \"Dan\",\n            \"lastName\": \"User\"\n        },\n        \"course\": {\n            \"name\": \"Another Course\"\n        }\n    }\n}",
+							"raw": "{\n    \"template\": \"<center><h2>Nursing Certificate</h2> {{ student.firstName }} {{ student.lastName }} has completed {{ course.name }}\",\n    \"data\": {\n        \"student\": {\n            \"firstName\": \"Test\",\n            \"lastName\": \"User\"\n        },\n        \"course\": {\n            \"name\": \"Sensory Interventions in Dysphagia Management\"\n        }\n    }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -343,6 +533,23 @@
 		},
 		{
 			"name": "Status",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "edd75fb6-709c-4146-b5f8-786508581191",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Body is correct\", function () {",
+							"    pm.response.to.have.body(\"OK\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
