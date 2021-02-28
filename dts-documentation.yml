@@ -3,7 +3,6 @@ info:
   description: "Manage and render document templates"
   version: "1.1.0"
   title: "Document Template System"
-host: "api.dts.local"
 basePath: "/api/v1"
 
 paths:
@@ -22,9 +21,8 @@ paths:
   /docType:
     get:
       tags:
-        - "DocTypes"
-      summary: "list doctypes"
-      operationId: "getDocTypes"
+        - "DocType"
+      summary: "Get a list of available DocTypes"
       responses:
         200:
           description: "success"
@@ -195,7 +193,6 @@ paths:
           description: "no such template"
 
   # DocData
-
   /docdata:
     post:
       tags:
@@ -236,6 +233,7 @@ paths:
             $ref: "#/definitions/DocDataDetail"
         400:
           description: "failed request, missing or invalid data"
+<<<<<<< HEAD
 
   /docdata/{dataId}:
     get:
@@ -264,6 +262,15 @@ paths:
         - "DocData"
       summary: "get current version of docData"
       operationId: "getDocDataByKey"
+=======
+  /docdata/{docType}/{dataKey}:
+    head:
+      tags:
+        - "DocData"
+      summary: ""
+      description: "Same as [GET /docdata/{docType}/{dataKey}](#/DocData/getDocDataByKey) use this just to see if the docType/dataKey exists"
+      operationId: "getDocDataExists"
+>>>>>>> master
       parameters:
         - name: "docType"
           in: "path"
@@ -278,8 +285,11 @@ paths:
       responses:
         200:
           description: "success"
+<<<<<<< HEAD
           schema:
             $ref: "#/definitions/DocDataDetailWithData"
+=======
+>>>>>>> master
         404:
           description: "no such docData"
 
@@ -316,6 +326,7 @@ paths:
         404:
           description: "DocData not found"
 
+<<<<<<< HEAD
 
   /render:
     get:
@@ -356,6 +367,8 @@ paths:
         404:
           description: "docData not found"
 
+=======
+>>>>>>> master
   /render/{docType}/{templateKey}/{dataKey}:
     get:
       tags:
@@ -387,6 +400,7 @@ paths:
           description: "success"
         404:
           description: "docData not found"
+<<<<<<< HEAD
       
   /hotrender:
     post:
@@ -441,6 +455,8 @@ paths:
           description: "success"
 
 
+=======
+>>>>>>> master
           
 definitions:
   DocType:
