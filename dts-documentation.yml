@@ -233,7 +233,6 @@ paths:
             $ref: "#/definitions/DocDataDetail"
         400:
           description: "failed request, missing or invalid data"
-<<<<<<< HEAD
 
   /docdata/{dataId}:
     get:
@@ -262,15 +261,6 @@ paths:
         - "DocData"
       summary: "get current version of docData"
       operationId: "getDocDataByKey"
-=======
-  /docdata/{docType}/{dataKey}:
-    head:
-      tags:
-        - "DocData"
-      summary: ""
-      description: "Same as [GET /docdata/{docType}/{dataKey}](#/DocData/getDocDataByKey) use this just to see if the docType/dataKey exists"
-      operationId: "getDocDataExists"
->>>>>>> master
       parameters:
         - name: "docType"
           in: "path"
@@ -285,11 +275,8 @@ paths:
       responses:
         200:
           description: "success"
-<<<<<<< HEAD
           schema:
             $ref: "#/definitions/DocDataDetailWithData"
-=======
->>>>>>> master
         404:
           description: "no such docData"
 
@@ -325,8 +312,6 @@ paths:
                   $ref: "#/definitions/DocDataDetail"
         404:
           description: "DocData not found"
-
-<<<<<<< HEAD
 
   /render:
     get:
@@ -367,8 +352,6 @@ paths:
         404:
           description: "docData not found"
 
-=======
->>>>>>> master
   /render/{docType}/{templateKey}/{dataKey}:
     get:
       tags:
@@ -400,7 +383,6 @@ paths:
           description: "success"
         404:
           description: "docData not found"
-<<<<<<< HEAD
       
   /hotrender:
     post:
@@ -454,10 +436,6 @@ paths:
         200:
           description: "success"
 
-
-=======
->>>>>>> master
-          
 definitions:
   DocType:
     type: "object"
