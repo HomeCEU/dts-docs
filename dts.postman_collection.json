@@ -6,46 +6,6 @@
 	},
 	"item": [
 		{
-			"name": "DocType",
-			"item": [
-				{
-					"name": "DocType",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "9912b9ec-7f1e-4fbc-a37d-15be9cb3ff42",
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/api/v1/doctype",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"doctype"
-							]
-						},
-						"description": "Lists docTypes"
-					},
-					"response": []
-				}
-			],
-			"protocolProfileBehavior": {}
-		},
-		{
 			"name": "Template",
 			"item": [
 				{
@@ -58,6 +18,24 @@
 								"exec": [
 									"pm.test(\"Successful POST request\", function () {",
 									"    pm.expect(pm.response.code).to.be.oneOf([201,202]);",
+									"});",
+									"const schema = {",
+									"    \"type\": \"object\",",
+									"    \"properties\": {",
+									"        \"templateId\": { \"type\": \"string\" },",
+									"        \"templateKey\": { \"type\": \"string\" },",
+									"        \"docType\": { \"type\": \"string\" },",
+									"        \"author\": { \"type\": \"string\" },",
+									"        \"createdAt\": { \"type\": \"object\" },",
+									"        \"bodyUri\": { \"type\": \"string\" },",
+									"    },",
+									"    \"required\": [",
+									"        \"templateId\", ",
+									"        \"templateKey\"",
+									"    ]",
+									"}",
+									"pm.test('Valid Response Schema', function() {",
+									"    pm.response.to.have.jsonSchema(schema);",
 									"});",
 									"var jsonData = JSON.parse(responseBody);",
 									"pm.environment.set(\"templateId\", jsonData.templateId);"
@@ -102,6 +80,17 @@
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
+									"});",
+									"const schema = {",
+									"    \"type\": \"object\",",
+									"    \"properties\": {",
+									"        \"total\": { \"type\": \"number\" },",
+									"        \"items\": { \"type\": \"array\" }",
+									"    },",
+									"    \"required\": [\"total\", \"items\"]",
+									"}",
+									"pm.test('Valid Response Schema', function() {",
+									"    pm.response.to.have.jsonSchema(schema);",
 									"});"
 								],
 								"type": "text/javascript"
@@ -135,7 +124,10 @@
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
-									"});"
+									"});",
+									"pm.test(\"Response is string\", function () {",
+									"    pm.response.to.be.string;",
+									"})"
 								],
 								"type": "text/javascript"
 							}
@@ -169,7 +161,10 @@
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
-									"});"
+									"});",
+									"pm.test(\"Response is string\", function () {",
+									"    pm.response.to.be.string;",
+									"})"
 								],
 								"type": "text/javascript"
 							}
@@ -204,6 +199,17 @@
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
+									"});",
+									"const schema = {",
+									"    \"type\": \"object\",",
+									"    \"properties\": {",
+									"        \"total\": { \"type\": \"number\" },",
+									"        \"items\": { \"type\": \"array\" }",
+									"    },",
+									"    \"required\": [\"total\", \"items\"]",
+									"}",
+									"pm.test('Valid Response Schema', function() {",
+									"    pm.response.to.have.jsonSchema(schema);",
 									"});"
 								],
 								"type": "text/javascript"
@@ -234,6 +240,57 @@
 			"protocolProfileBehavior": {}
 		},
 		{
+			"name": "DocType",
+			"item": [
+				{
+					"name": "DocType",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9912b9ec-7f1e-4fbc-a37d-15be9cb3ff42",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"const schema = {",
+									"    \"type\": \"object\",",
+									"    \"properties\": {",
+									"        \"total\": { \"type\": \"number\" },",
+									"        \"items\": { \"type\": \"array\" }",
+									"    },",
+									"    \"required\": [\"total\", \"items\"]",
+									"};",
+									"pm.test('Valid Response Schema', function() {",
+									"    pm.response.to.have.jsonSchema(schema);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/doctype",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"doctype"
+							]
+						},
+						"description": "Lists docTypes"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
 			"name": "DocData",
 			"item": [
 				{
@@ -247,9 +304,19 @@
 									"pm.test(\"Successful POST request\", function () {",
 									"    pm.expect(pm.response.code).to.be.oneOf([201,202]);",
 									"});",
-									"pm.test(\"Response Has dataId\", function () {",
-									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData).to.have.property('dataId');",
+									"const schema = {",
+									"    \"type\": \"object\",",
+									"    \"properties\": {",
+									"        \"dataId\": { \"type\": \"string\" },",
+									"        \"docType\": { \"type\": \"string\" },",
+									"        \"dataKey\": { \"type\": \"string\" },",
+									"        \"createdAt\": { \"type\": \"object\" },",
+									"        \"bodyUri\": { \"type\": \"string\" }",
+									"    },",
+									"    \"required\": [\"dataId\", \"docType\", \"dataKey\", \"createdAt\", \"bodyUri\"]",
+									"};",
+									"pm.test('Valid Response Schema', function() {",
+									"    pm.response.to.have.jsonSchema(schema);",
 									"});",
 									"var jsonData = JSON.parse(responseBody);",
 									"pm.environment.set(\"dataId\", jsonData.dataId);"
@@ -294,6 +361,20 @@
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
+									"});",
+									"const schema = {",
+									"    \"type\": \"object\",",
+									"    \"properties\": {",
+									"        \"dataId\": { \"type\": \"string\" },",
+									"        \"docType\": { \"type\": \"string\" },",
+									"        \"dataKey\": { \"type\": \"string\" },",
+									"        \"createdAt\": { \"type\": \"string\" },",
+									"        \"data\": { \"type\": \"object\" }",
+									"    },",
+									"    \"required\": [\"dataId\", \"docType\", \"dataKey\", \"createdAt\", \"data\"]",
+									"}",
+									"pm.test('Valid Response Schema', function() {",
+									"    pm.response.to.have.jsonSchema(schema);",
 									"});"
 								],
 								"type": "text/javascript"
@@ -328,6 +409,20 @@
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
+									"});",
+									"const schema = {",
+									"    \"type\": \"object\",",
+									"    \"properties\": {",
+									"        \"dataId\": { \"type\": \"string\" },",
+									"        \"docType\": { \"type\": \"string\" },",
+									"        \"dataKey\": { \"type\": \"string\" },",
+									"        \"createdAt\": { \"type\": \"string\" },",
+									"        \"data\": { \"type\": \"object\" }",
+									"    },",
+									"    \"required\": [\"dataId\", \"docType\", \"dataKey\", \"createdAt\", \"data\"]",
+									"}",
+									"pm.test('Valid Response Schema', function() {",
+									"    pm.response.to.have.jsonSchema(schema);",
 									"});"
 								],
 								"type": "text/javascript"
@@ -359,10 +454,21 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "ce0dc8c2-ab8a-433b-9d2a-23b90a79447a",
+								"id": "0367036f-1862-4b3f-b456-922497a0673f",
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
+									"});",
+									"const schema = {",
+									"    \"type\": \"object\",",
+									"    \"properties\": {",
+									"        \"total\": { \"type\": \"number\" },",
+									"        \"items\": { \"type\": \"array\" }",
+									"    },",
+									"    \"required\": [\"total\", \"items\"]",
+									"};",
+									"pm.test('Valid Response Schema', function() {",
+									"    pm.response.to.have.jsonSchema(schema);",
 									"});"
 								],
 								"type": "text/javascript"
@@ -405,7 +511,10 @@
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
-									"});"
+									"});",
+									"pm.test(\"Response is string\", function () {",
+									"    pm.response.to.be.string;",
+									"})"
 								],
 								"type": "text/javascript"
 							}
@@ -454,7 +563,10 @@
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
-									"});"
+									"});",
+									"pm.test(\"Response is string\", function () {",
+									"    pm.response.to.be.string;",
+									"})"
 								],
 								"type": "text/javascript"
 							}
@@ -496,7 +608,19 @@
 								"exec": [
 									"pm.test(\"Successful POST request\", function () {",
 									"    pm.expect(pm.response.code).to.be.oneOf([201,202]);",
-									"});"
+									"});",
+									"const schema = {",
+									"    \"type\": \"object\",",
+									"    \"properties\": {",
+									"        \"request\": { \"type\": \"array\" },",
+									"        \"createdAt\": { \"type\": \"object\" },",
+									"        \"location\": { \"type\": \"string\" }",
+									"    },",
+									"    \"required\": [\"requestId\", \"createdAt\", \"location\"]",
+									"};",
+									"pm.test(\"Valid Response Schema\", function () {",
+									"    pm.response.to.have.jsonSchema(schema);",
+									"})"
 								],
 								"type": "text/javascript"
 							}
@@ -542,9 +666,9 @@
 							"pm.test(\"Status code is 200\", function () {",
 							"    pm.response.to.have.status(200);",
 							"});",
-							"pm.test(\"Body is correct\", function () {",
-							"    pm.response.to.have.body(\"OK\");",
-							"});"
+							"pm.test(\"Response is string\", function () {",
+							"    pm.response.to.be.string;",
+							"})"
 						],
 						"type": "text/javascript"
 					}
