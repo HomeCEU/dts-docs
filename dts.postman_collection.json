@@ -1,0 +1,395 @@
+{
+	"info": {
+		"_postman_id": "597ad9f6-0dfd-4d2a-b2b4-ec63604d5511",
+		"name": "dts",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "DocType",
+			"item": [
+				{
+					"name": "DocType",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/doctype",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"doctype"
+							]
+						},
+						"description": "Lists docTypes"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Template",
+			"item": [
+				{
+					"name": "Add Template",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"docType\": \"homeceu-certificate\",\n    \"templateKey\": \"nursing\",\n    \"author\": \"Dan\",\n    \"body\": \"<center><h2>Course Certificate</h2> {{ student.firstName }} {{ student.lastName }} has completed {{ course.name }}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/template",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"template"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Templates",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/template",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"template"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Template Body by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/template/template_id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"template",
+								"template_id"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Template Body by docType & Key",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/template/homeceu-certificate/nursing",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"template",
+								"homeceu-certificate",
+								"nursing"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Template History",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/template/homeceu-certificate/nursing/history",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"template",
+								"homeceu-certificate",
+								"nursing",
+								"history"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "DocData",
+			"item": [
+				{
+					"name": "Add DocData",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"docType\": \"homeceu-certificate\",\n    \"dataKey\": \"ABC123\",\n    \"data\": {\n        \"student\": {\n            \"firstName\": \"Test\",\n            \"lastName\": \"User\"\n        },\n        \"course\": {\n            \"name\": \"Sensory Interventions in Dysphagia Management\"\n        }\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/docdata",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"docdata"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get DocData by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/docdata/dataId",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"docdata",
+								"dataId"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get DocData by DocType and Key",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/docdata/homeceu-certificate/ABC123",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"docdata",
+								"homeceu-certificate",
+								"ABC123"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get DocData History",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/docdata/homeceu-certificate/ABC123/history",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"docdata",
+								"homeceu-certificate",
+								"ABC123",
+								"history"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Render",
+			"item": [
+				{
+					"name": "Render",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "text/html;application/pdf",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/render?dataId=f813f2ec-78cc-11eb-9f72-0242ac160003&templateId=4e0d39a8-78cb-11eb-a251-0242ac160003",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"render"
+							],
+							"query": [
+								{
+									"key": "dataId",
+									"value": "f813f2ec-78cc-11eb-9f72-0242ac160003"
+								},
+								{
+									"key": "templateId",
+									"value": "4e0d39a8-78cb-11eb-a251-0242ac160003"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Render DocType TemplateKey",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "text/html;application/pdf"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/render/homeceu-certificate/nursing/ABC123",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"render",
+								"homeceu-certificate",
+								"nursing",
+								"ABC123"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "HotRender",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"template\": \"<center><h2>Nursing Certificate</h2> {{ student.firstName }} {{ student.lastName }} has completed {{ course.name }}\",\n    \"data\": {\n        \"student\": {\n            \"firstName\": \"Dan\",\n            \"lastName\": \"User\"\n        },\n        \"course\": {\n            \"name\": \"Another Course\"\n        }\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/hotrender",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"hotrender"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Status",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/v1/status",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"status"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				],
+				"id": "808e1223-f4fc-4fec-966c-b5c12040d0bd"
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				],
+				"id": "90b2180f-ce66-4ea0-8ed6-2b313587cdbc"
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "c68d653b-1c02-4900-8bad-86300b018706",
+			"key": "v1",
+			"value": "/api/v1",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
