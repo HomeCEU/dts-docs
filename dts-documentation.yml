@@ -6,6 +6,18 @@ info:
 basePath: "/api/v1"
 
 paths:
+  /status:
+    get:
+      tags:
+        - "API"
+      summary: "get status of the API"
+      responses:
+        200:
+          description: "success"
+          schema:
+            type: "string"
+            example: "OK"
+            
   # DocData
   /docdata:
     post:
@@ -70,29 +82,6 @@ paths:
           description: "success"
         404:
           description: "no such docData"
-    get:
-      tags:
-        - "DocData"
-      summary: "get current version of docData - NOT YET IMPLEMENTED"
-      operationId: "getDocDataByKey"
-      parameters:
-        - name: "docType"
-          in: "path"
-          description: "type constant, does not have to already exist"
-          required: true
-          type: string
-        - name: "dataKey"
-          in: "path"
-          description: "docData identifier, must be unique within type"
-          required: true
-          type: "string"
-      responses:
-        200:
-          description: "success"
-          schema:
-            $ref: "#/definitions/DocDataDetailWithData"
-        404:
-          description: "no such docData"
 
   /docdata/{docType}/{dataKey}/history:
     get:
@@ -127,46 +116,6 @@ paths:
         404:
           description: "DocData not found"
 
-
-  /render:
-    get:
-      tags:
-        - "Render"
-      summary: "get document from template and docData"
-      description: "use this if you need a specific template or docData version"
-      operationId: "render"
-      produces:
-        - "application/pdf"
-        - "text/html"
-      parameters:
-        - name: "docType"
-          in: "query"
-          description: "required only if keys are used instead of id's"
-          type: "string"
-        - name: "templateId"
-          in: "query"
-          description: "use for specific template version"
-          type: "string"
-          format: "uuid"
-        - name: "templateKey"
-          in: "query"
-          description: "required if templateId is not provided - constant to identify template, unique per docType"
-          type: "string"
-        - name: "dataId"
-          in: "query"
-          description: "use for specific docData version"
-          type: "string"
-          format: "uuid"
-        - name: "dataKey"
-          in: "query"
-          description: "required if dataId is not provided - docData identifier, unique per docData type"
-          type: "string"
-      responses:
-        200:
-          description: "success"
-        404:
-          description: "docData not found"
-
   /render/{docType}/{templateKey}/{dataKey}:
     get:
       tags:
@@ -198,47 +147,6 @@ paths:
           description: "success"
         404:
           description: "docData not found"
-          
-  /render/{docType}/{templateKey}:
-    post:
-      tags:
-        - "Render"
-      summary: "render template using request body - NOT YET IMPLEMENTED"
-      description: ""
-      operationId: "hotRender"
-      produces:
-        - "application/pdf"
-        - "text/html"
-      parameters:
-        - name: "docType"
-          in: "path"
-          description: "constant to identify the type of document"
-          required: true
-          type: "string"
-        - name: "templateKey"
-          in: "path"
-          description: "constant to identify template, unique per docType"
-          required: true
-          type: "string"
-        - in: "body"
-          name: "docData"
-          description: "Required: docType, dataKey, data"
-          required: true
-          schema:
-            type: "object"
-            required:
-              - data
-            properties:
-              format:
-                type: "string"
-                description: "html or pdf"
-                enum: ["html","pdf"]
-              data:
-                type: "object"
-                description: "key value pairs used to render template"
-      responses:
-        200:
-          description: "success"
           
 definitions:
   DocType:
