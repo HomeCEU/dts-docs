@@ -393,7 +393,7 @@ paths:
         - "text/html"
       consumes:
         - "multipart/form-data"
-      summary: "Create a request for a hot render"
+      summary: "Create a request for to render a raw template and provided data."
       description: "This is for rendering examples, and SHOULD NOT be used for permanent documents. /hotrender requests are only available for a few days."
       parameters:
         - name: "docType"
